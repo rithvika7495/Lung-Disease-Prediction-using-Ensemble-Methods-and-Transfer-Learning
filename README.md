@@ -1,7 +1,7 @@
 
 # 🚑 Lung Disease Classification using Ensemble Transfer Learning and Grad-CAM
 
-> A robust and explainable AI framework for pneumonia and lung disease detection from chest X-rays using an ensemble of pre-trained CNNs and Grad-CAM for visual interpretability.
+A robust and explainable AI framework for pneumonia and lung disease detection from chest X-rays using an ensemble of pre-trained CNNs and Grad-CAM for visual interpretability.
 
 ---
 
