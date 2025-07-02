@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChestVision</title>
+    
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="logo-container">
+        <img decoding="async" sizes="100vw" srcset="..\static\ChestVision_Logo_01.png" 
+        src="{{ url_for('static', filename='ChestVision_Logo_01.png') }}" alt="ChestVision Logo">
+        <div class="text-logo">
+            ChestVision
+        </div>
+    </div>
+    <div class="container">
+        <h1>ChestVision: Your AI Lung Disease Detection</h1>
+        <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+            <input type="hidden" id="image-data" name="image_data">
+            <div class="gradcam-container show" id="gradcam-container">
+                <img id="gradcam-image" src="{{ gradcam_image_path }}" alt="Grad-CAM Image">
+            </div>
+            <input type="hidden" name="filepath" value="{{ filepath }}">
+            <div class="button-container" id="predict-button-container">
+                <button type="button" class="modern-button" id="predict-button" onclick="predictDisease()">Predict</button>
+            </div>
+        </form>
+        <div class="result-container" id="result-container" style="display: none;">
+            <h2>Predicted Disease: <span id="predicted-disease">{{ predicted_disease }}</span></h2>
+            <p>Overview: <span id="overview">{{ overview }}</span></p>
+            <p>Symptoms: <span id="symptoms">{{ symptoms }}</span></p>
+            <p>Treatments: <span id="treatments">{{ treatments }}</span></p>
+            <p>Precautionary Methods: <span id="precautionary-methods">{{ precautionary_methods }}</span></p>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>ChestVision Developer Team</p>
+        <p>Vellore Institute Technology, Chennai</p>
+    </footer>
+    <script>
+        function predictDisease() {
+            const filepath = document.querySelector('input[name="filepath"]').value;
+            fetch(`{{ url_for('predict') }}?filepath=${filepath}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('predicted-disease').textContent = data.predicted_disease;
+                    document.getElementById('overview').textContent = data.overview;
+                    document.getElementById('symptoms').textContent = data.symptoms;
+                    document.getElementById('treatments').textContent = data.treatments;
+                    document.getElementById('precautionary-methods').textContent = data.precautionary_methods;
+                    document.getElementById('result-container').style.display = 'flex';
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

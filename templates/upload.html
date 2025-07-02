@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChestVision</title>
+    
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
+</head> 
+<body>
+    <div class="background"></div>
+    <div class="logo-container">
+        <img decoding="async" sizes="100vw" srcset= "..\static\ChestVision_Logo_01.png" 
+        src="{{ url_for('static', filename='ChestVision_Logo_01.png') }}" alt="ChestVision Logo">
+        <div class="text-logo">
+            ChestVision
+        </div>
+    </div>
+    <div class="container">
+        <h1>ChestVision: Your AI Lung Disease Detection</h1>
+        <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+            <input type="hidden" id="image-data" name="image_data">
+            <input type="hidden" id="gradcam-image-path" name="gradcam_image_path"> 
+            <div class="image-container" id="image-container" style="margin-left:10px; margin-top: 30px; border-width: 1px;">
+                <img id="uploaded-image" src="{{ filepath }}" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="button-container" style="position: relative; left: 0px; top: 20px; display: flex; align-items: center; justify-content: center;">
+                <label for="file-input" class="modern-button" style="width: 200px; margin-right: 100px; height: 40px; cursor: pointer;">
+                    Upload Image
+                </label>
+                <input id="file-input" type="file" name="file" accept="image/*" required style="display: none;">
+                <p style="color: red; font-size: 0.8em; margin-left:-170px; margin-top: 100px;">Max file size: 50MB</p>
+                <button type="submit" class="modern-button" style="width: 200px; height: 40px; margin-left:-80px ; margin-top: 0px;">Submit</button>
+            </div>
+        </form>
+    </div>    
+    <footer class="footer">
+        <p>ChestVision Developer Team</p>
+        <p>Vellore Institute Technology, Chennai</p>
+    </footer>
+    <script>
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const maxSize = 50 * (2 ** 10) ** 2 // 50MB 
+    
+            if (file) {
+                if (file.size > maxSize) {
+                    alert('File size exceeds 50MB. Please upload a smaller file.');
+                    event.target.value = '';
+                    return;
+                }
+    
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('uploaded-image');
+                    img.src = e.target.result;
+                    const imageContainer = document.getElementById('image-container');
+                    imageContainer.classList.add('show');
+                    document.getElementById('image-data').value = e.target.result;
+                    document.getElementById('gradcam-image-path').value = 'path/to/gradcam/image';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
