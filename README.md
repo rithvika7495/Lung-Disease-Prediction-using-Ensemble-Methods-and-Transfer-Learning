@@ -1,6 +1,3 @@
-Here’s your **combined and complete `README.md`** for the GitHub repository **“Lung Disease Classification using Ensemble Transfer Learning and Grad-CAM”**, including the updated project overview and dataset section:
-
----
 
 # 🚑 Lung Disease Classification using Ensemble Transfer Learning and Grad-CAM
 
