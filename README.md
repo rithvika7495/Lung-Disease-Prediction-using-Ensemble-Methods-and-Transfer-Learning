@@ -199,5 +199,6 @@ We developed an **explainable ensemble AI system** for pneumonia classification 
 
 * **Rithvika T**
 * **Monish P.**
+  
   *Guide: Prof. Poonkodi M.*
 
